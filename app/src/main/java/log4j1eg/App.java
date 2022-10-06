@@ -3,24 +3,28 @@
  */
 package log4j1eg;
 
+import com.newrelic.api.agent.Trace;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 public class App {
 
     private static final Logger LOGGER = Logger.getLogger(App.class);
 
-    public String logInfo(String message) {
+    @Trace(dispatcher = true)
+    public String logInfo(String message) throws InterruptedException {
+        Thread.sleep(1000);
         LOGGER.info(message);
         return message + " logged";
     }
 
     public static void main(String[] args) throws InterruptedException {
+        BasicConfigurator.configure();
         int count = 0;
         App app = new App();
-        while(count < 10) {
+        while(count < 100) {
             System.out.println(app.logInfo("message " + count));
             count++;
-            Thread.sleep(1000);
         }
     }
 }

@@ -37,6 +37,15 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'log4j1eg.App'
+
+    applicationDefaultJvmArgs = [
+//            "-javaagent:${project.projectDir}/newrelic/newrelic-agent.jar",
+            "-javaagent:/Users/tcrone/work/newrelic/newrelic-java-agent/newrelic-agent/build/newrelicJar/newrelic.jar",
+            "-Dnewrelic.config.file=${project.projectDir}/newrelic/newrelic.yml",
+            // Uncomment if you want to specify an environment other than production
+            "-Dnewrelic.environment=staging",
+            "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+    ]
 }
 
 tasks.named('test') {
